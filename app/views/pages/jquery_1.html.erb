@@ -1,3 +1,15 @@
+<script>
+
+  //  这是 javascript  注解
+  //  也可以缩写成 $(function(){
+  $(document).ready(function(){
+    $("#my-click").click(function(){
+      $("#foo").html('<h1>zoo</h1>');
+    })
+})
+
+</script>
+
 <p>
   <a id="my-click">Click  Me</a>
 </p>
@@ -5,21 +17,3 @@
 <div  id="foo"  style="border: 1px  solid red;">
   <p>bar</p>
 </div>
-
-<script>
-  $("#my-click").click(function(){
-    $("#foo").after('<h1>zoo</h1>');
-  })
-</script>
-
-
-
-<script>
- console.log("checkpoint A");
-
-  $("#my-click").click(function(){
-  console.log("checkpoint  C");
-  })
-
-  console.log("checkpoint  B");
-</script>
