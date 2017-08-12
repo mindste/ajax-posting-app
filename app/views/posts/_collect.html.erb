@@ -1,0 +1,9 @@
+<% if  current_user  %>
+  <% if  post.find_collect(current_user)   %>
+    <label  class="label  label-success">已收藏</label>
+    <%=  link_to  "", uncollect_post_path(post), method: :post, :remote  =>  true, class:  "fa fa-heart  btn  btn-default", style: "color: red;"  %>
+  <%  else  %>
+    <label  class="label  label-warning">未收藏</label>
+    <%=  link_to  "", collect_post_path(post), method: :post, :remote  =>  true, class:  "fa fa-heart-o  btn  btn-default" %>
+  <%  end  %>
+<%  end  %>

@@ -2,6 +2,23 @@ class PostsController < ApplicationController
 
   before_action  :authenticate_user!, only: [:create, :destroy]
 
+  def  collect
+    @post  =  Post.find(params[:id])
+    if  !@post.find_collect(current_user)
+      Collect.create(:user  =>  current_user, :post  =>  @post)
+    end
+
+    redirect_to  posts_path
+  end
+
+  def  uncollect
+    @post  =  Post.find(params[:id])
+    collect   =   @post.find_collect(current_user)
+    collect.destroy
+
+    redirect_to  posts_path
+  end
+
   def  like
     @post  =  Post.find(params[:id])
     unless  @post.find_like(current_user)   # 如果已经点过赞了，就略过不再新增
