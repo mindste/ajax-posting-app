@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post  "unlike"  =>  "posts#unlike"
       post  "collect"  =>  "posts#collect"
       post  "uncollect"  =>  "posts#uncollect"
+      post  "toggle_flag"  =>  "posts#toggle_flag"
     end
   end
 

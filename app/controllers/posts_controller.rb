@@ -2,6 +2,20 @@ class PostsController < ApplicationController
 
   before_action  :authenticate_user!, only: [:create, :destroy]
 
+  def  toggle_flag
+    @post  =  Post.find(params[:id])
+
+    if  @post.flag_at
+      @post.flag_at   =  nil
+    else
+      @post.flag_at  =  Time.now
+    end
+
+    @post.save!
+
+    render  :json  =>  { :message  =>  "ok", :flag_at  => @post.flag_at, :id  =>  @post.id }
+  end
+
   def  collect
     @post  =  Post.find(params[:id])
     if  !@post.find_collect(current_user)
@@ -36,7 +50,16 @@ class PostsController < ApplicationController
   end
 
   def  index
-    @posts  =  Post.order("id  DESC").all    #  新贴文放前面
+    @posts  =  Post.order("id  DESC").limit(20)    #  新贴文放前面
+
+    if  params[:max_id]
+      @posts  =  @posts.where( "id < ?", params[:max_id])
+    end
+
+    respond_to  do  |format|
+      format.html  #  如果客户端要求 HTML，则回传  index.html.erb
+      format.js    #  如果客户端要求 JavaScript，回传  index.js.erb
+    end
   end
 
   def  create
@@ -50,6 +73,7 @@ class PostsController < ApplicationController
     @post  =  current_user.posts.find(params[:id])  # 只能删除自己的贴文
     @post.destroy
 
+    render  :json  =>  {  :id  =>  @post.id }
   end
 
   protected
